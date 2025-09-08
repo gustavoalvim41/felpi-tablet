@@ -22,7 +22,7 @@ function getTotal(seqArr: PatternStep[]) {
 }
 
 export default function RespiracaoGuiada() {
-  const [patternKey, setPatternKey] = useState<PatternKey>('426');
+  const [patternKey] = useState<PatternKey>('426');
   const [seq, setSeq] = useState<PatternStep[]>(patterns['426']);
   const [phaseIdx, setPhaseIdx] = useState<number>(0);
   const [phase, setPhase] = useState<PhaseName>('Pronto');
@@ -30,7 +30,7 @@ export default function RespiracaoGuiada() {
   const [cycles, setCycles] = useState<number>(0);
   const [running, setRunning] = useState<boolean>(false);
   const [pctCycle, setPctCycle] = useState<number>(0);
-  const [cue, setCue] = useState<string>(cues.Pronto);
+  // cue removido pois não é utilizado
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
 
@@ -39,7 +39,6 @@ export default function RespiracaoGuiada() {
   useEffect(() => {
     setSeq(patterns[patternKey]);
     resetAll();
-    // eslint-disable-next-line
   }, [patternKey]);
 
   useEffect(() => {
@@ -48,7 +47,6 @@ export default function RespiracaoGuiada() {
       const [nextPhase, nextDur] = seq[0];
       setPhase(nextPhase);
       setTLeft(nextDur);
-      setCue(cues[nextPhase]);
       setPhaseIdx(0);
       setPctCycle(0);
       return;
@@ -68,14 +66,12 @@ export default function RespiracaoGuiada() {
             setPhaseIdx(phaseIdx + 1);
             setPhase(nextPhase);
             setTLeft(nextDur);
-            setCue(cues[nextPhase]);
           } else {
             setCycles((c) => c + 1);
             const [nextPhase, nextDur] = seq[0];
             setPhaseIdx(0);
             setPhase(nextPhase);
             setTLeft(nextDur);
-            setCue(cues[nextPhase]);
             setPctCycle(0);
           }
           return seq[phaseIdx][1] as number;
@@ -85,7 +81,6 @@ export default function RespiracaoGuiada() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-    // eslint-disable-next-line
   }, [running, phase, phaseIdx, seq]);
 
   function start() {
@@ -95,7 +90,6 @@ export default function RespiracaoGuiada() {
       const [nextPhase, nextDur] = seq[0];
       setPhase(nextPhase);
       setTLeft(nextDur);
-      setCue(cues[nextPhase]);
       setPhaseIdx(0);
       setPctCycle(0);
     }
@@ -111,7 +105,6 @@ export default function RespiracaoGuiada() {
     setTLeft(0);
     setCycles(0);
     setPhaseIdx(0);
-    setCue(cues.Pronto);
     setPctCycle(0);
   }
 

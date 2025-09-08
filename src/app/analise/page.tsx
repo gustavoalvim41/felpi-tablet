@@ -74,6 +74,24 @@ export default function Analise() {
     });
     return () => unsubscribe();
   }, []);
+  // Frases animadas
+  const phrases = [
+    "Estou aqui com você nesta viagem. Siga tranquilo",
+    "Relaxe os ombros, respire fundo. Eu cuido do restante",
+    "Você não está sozinho, seguimos juntos nessa estrada",
+    "A cada quilômetro, eu acompanho o seu bem-estar",
+    "Se precisar, lembre-se: posso indicar uma parada segura",
+    "Sua atenção é preciosa. Eu estou aqui para ajudar",
+    "Mantenha a calma, vamos juntos até o destino",
+    "Você está fazendo um ótimo trabalho, confie em você",
+  ];
+  const [currentPhrase, setCurrentPhrase] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCurrentPhrase((prev) => (prev + 1) % phrases.length);
+    }, 20000);
+    return () => clearTimeout(timer);
+  }, [currentPhrase, phrases.length]);
   return (
     <div className="min-h-screen w-full flex flex-col bg-panel">
       {/* Header FELPI fixo no topo */}
@@ -90,30 +108,9 @@ export default function Analise() {
       </header>
       <main className="flex-1 w-full flex flex-col justify-center">
         <div className="w-full flex justify-center">
-          {(() => {
-            const phrases = [
-              "Estou aqui com você nesta viagem. Siga tranquilo",
-              "Relaxe os ombros, respire fundo. Eu cuido do restante",
-              "Você não está sozinho, seguimos juntos nessa estrada",
-              "A cada quilômetro, eu acompanho o seu bem-estar",
-              "Se precisar, lembre-se: posso indicar uma parada segura",
-              "Sua atenção é preciosa. Eu estou aqui para ajudar",
-              "Mantenha a calma, vamos juntos até o destino",
-              "Você está fazendo um ótimo trabalho, confie em você",
-            ];
-            const [current, setCurrent] = useState(0);
-            useEffect(() => {
-              const timer = setTimeout(() => {
-                setCurrent((prev) => (prev + 1) % phrases.length);
-              }, 20000);
-              return () => clearTimeout(timer);
-            }, [current]);
-            return (
-              <p className="text-lg text-[#e9f1f4] italic font-normal text-center px-6 py-3 leading-relaxed bg-[#122d37] border border-[rgba(255,255,255,.12)] rounded-full">
-                {phrases[current]}
-              </p>
-            );
-          })()}
+          <p className="text-lg text-[#e9f1f4] italic font-normal text-center px-6 py-3 leading-relaxed bg-[#122d37] border border-[rgba(255,255,255,.12)] rounded-full">
+            {phrases[currentPhrase]}
+          </p>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 rounded-2xl p-4">
           <section className="flex flex-col justify-center items-center bg-[#122d37] border border-[rgba(255,255,255,.12)] rounded-xl p-6 min-h-[440px] w-full">
